@@ -1,3 +1,12 @@
+/*
+ * Implementaci—n del problema de los fil—sofos en Java
+ * 
+ * Autor: îscar de arriba <odarriba@gmail.com>
+ * Fecha: 08/03/13
+ * Fichero: Filosofo.java
+ * 
+ */
+
 import java.util.concurrent.Semaphore;
 import java.util.Date;
 
@@ -18,33 +27,40 @@ public class Filosofo extends Thread {
 	}
 	
 	public void run(){
-		while(true)
-		{
+		while(true){
+			// Bucle para seguir intentando coger los palillos hasta que se consiga
 			while(this.palillos_cogidos == false){
+				// Bloquear al resto de hilos
 				esperar_lock();
+				
+				// Intentar coger cada uno de los palillos
 				if (this.pal_izquierda.coger())
 				{
 					if (this.pal_derecha.coger())
 					{
+						// Salir del bucle para poder comer
 						this.palillos_cogidos = true;
 					}
 					else
 					{
+						// Si no se pudo coger el de la derecha, soltar el de la izquierda
+						// para que otro pueda usarlo
 						this.pal_izquierda.soltar();
 					}
 				}
 				soltar_lock();
 			}
 			
-			comer();
+			comer(); // 5 segundos
 			
+			// Bloquear el resto de hilos mientras se sueltan los palillos
 			esperar_lock();
 			this.pal_derecha.soltar();
 			this.pal_izquierda.soltar();
-			palillos_cogidos = false;
+			this.palillos_cogidos = false;
 			soltar_lock();
 			
-			pensar();
+			pensar(); // 5 segundos
 		}
 	}
 	

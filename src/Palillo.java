@@ -1,3 +1,12 @@
+/*
+ * Implementaci—n del problema de los fil—sofos en Java
+ * 
+ * Autor: îscar de arriba <odarriba@gmail.com>
+ * Fecha: 08/03/13
+ * Fichero: Palillo.java
+ * 
+ */
+
 import java.util.concurrent.Semaphore;
 
 public class Palillo {
@@ -10,7 +19,7 @@ public class Palillo {
 	}
 	
 	public boolean coger(){
-		return semaforo.tryAcquire();
+		return semaforo.tryAcquire(); // tryAcquire para no bloquear los hilos y poder dejar libres los recursos si no se usan.
 	}
 	
 	public void soltar(){
